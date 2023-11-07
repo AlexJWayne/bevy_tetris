@@ -1,33 +1,12 @@
-use bevy::{prelude::*, render::camera::*};
+use bevy::prelude::*;
+
+mod game_camera;
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_systems(Startup, (create_camera, create_stage))
+        .add_systems(Startup, (game_camera::create_camera, create_stage))
         .run();
-}
-
-#[derive(Component)]
-struct GameCamera;
-
-fn create_camera(mut commands: Commands) {
-    let projection = OrthographicProjection {
-        far: 1000.,
-        near: -1000.,
-        scaling_mode: ScalingMode::FixedVertical(24.),
-        ..default()
-    };
-
-    let transform = Transform::from_xyz(5., 9., 0.);
-
-    commands.spawn((
-        Camera2dBundle {
-            projection,
-            transform,
-            ..default()
-        },
-        GameCamera,
-    ));
 }
 
 fn create_stage(mut commands: Commands) {
